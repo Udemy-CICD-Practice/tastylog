@@ -64,16 +64,12 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     steps:
-      - name: Terraform apply
-        run: terraform apply -auto-approve
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
-      - name: Terraform format
-        run: terraform fmt -check
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -81,4 +77,11 @@ jobs:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
       - name: Terraform init
         run: terraform init -no-color
+      - name: Terraform apply
+        run: |
+          terraform apply -var project=${{ env.TF_PROJECT }} \
+            -var environment=${{ env.TF_ENVIRONMENT }} \
+            -var username=${{ secrets.MYSQL_USERNAME}} \
+            -var password=${{ secrets.MYSQL_PASSWORD }} \
+            -auto-approve -input=false -no-color
     
