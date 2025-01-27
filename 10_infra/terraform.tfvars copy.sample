@@ -1,0 +1,515 @@
+╷
+│ Error: error creating application Load Balancer: AccessDenied: User: arn:aws:iam::677276078740:user/teraform is not authorized to perform: elasticloadbalancing:CreateLoadBalancer on resource: arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:loadbalancer/app/tastylog-dev-front-alb/* because no identity-based policy allows the elasticloadbalancing:CreateLoadBalancer action
+│       status code: 403, request id: 1ecbfed0-f58b-4b1e-95dc-c47822a0dcb1
+│ 
+│   with aws_lb.front,
+│   on elb.tf line 4, in resource "aws_lb" "front":
+│    4: resource "aws_lb" "front" {
+│ 
+╵
+╷
+│ Error: error creating LB Target Group: AccessDenied: User: arn:aws:iam::677276078740:user/teraform is not authorized to perform: elasticloadbalancing:CreateTargetGroup on resource: arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:targetgroup/tastylog-dev-webapp-blue-tg/* because no identity-based policy allows the elasticloadbalancing:CreateTargetGroup action
+│       status code: 403, request id: ec4a80d1-e151-412a-825a-f8a1e7f95684
+│ 
+│   with aws_lb_target_group.webapp_blue,
+│   on elb.tf line 43, in resource "aws_lb_target_group" "webapp_blue":
+│   43: resource "aws_lb_target_group" "webapp_blue" {
+│ 
+╵
+╷
+│ Error: error creating LB Target Group: AccessDenied: User: arn:aws:iam::677276078740:user/teraform is not authorized to perform: elasticloadbalancing:CreateTargetGroup on resource: arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:targetgroup/tastylog-dev-webapp-green-tg/* because no identity-based policy allows the elasticloadbalancing:CreateTargetGroup action
+│       status code: 403, request id: fd74da6b-2219-4d96-a3d9-ecbb092eaa38
+│ 
+│   with aws_lb_target_group.webapp_green,
+│   on elb.tf line 62, in resource "aws_lb_target_group" "webapp_green":
+│   62: resource "aws_lb_target_group" "webapp_green" {
+│ 
+╵
+╷
+│ Error: Error creating DB Option Group: AccessDenied: User: arn:aws:iam::677276078740:user/teraform is not authorized to perform: rds:CreateOptionGroup on resource: arn:aws:rds:ap-northeast-1:677276078740:og:tastylog-dev-mysql-standalone-optiongroup because no identity-based policy allows the rds:CreateOptionGroup action
+│       status code: 403, request id: 20235fe8-a7c7-4d1c-8b3d-6c1874ded9af
+│ 
+│   with aws_db_option_group.mysql_standalone_optiongroup,
+│   on rds.tf line 23, in resource "aws_db_option_group" "mysql_standalone_optiongroup":
+│   23: resource "aws_db_option_group" "mysql_standalone_optiongroup" {
+│ 
+╵
+╷
+│ Error: error reading SSM Parameter (/tastylog/dev/app/MYSQL_USERNAME): AccessDeniedException: User: arn:aws:iam::677276078740:user/teraform is not authorized to perform: ssm:GetParameter on resource: arn:aws:ssm:ap-northeast-1:677276078740:parameter/tastylog/dev/app/MYSQL_USERNAME because no identity-based policy allows the ssm:GetParameter action
+│       status code: 400, request id: db12f5de-e662-4ad5-a05c-c5384366d359
+│ 
+│   with aws_ssm_parameter.username,
+│   on ssm.tf line 24, in resource "aws_ssm_parameter" "username":
+│   24: resource "aws_ssm_parameter" "username" {
+│ 
+╵
+╷
+│ Error: error creating SSM parameter (/tastylog/dev/app/MYSQL_PASSWORD): AccessDeniedException: User: arn:aws:iam::677276078740:user/teraform is not authorized to perform: ssm:PutParameter on resource: arn:aws:ssm:ap-northeast-1:677276078740:parameter/tastylog/dev/app/MYSQL_PASSWORD because no identity-based policy allows the ssm:PutParameter action
+│       status code: 400, request id: 883d6abb-427b-457d-8202-f075e03413db
+│ 
+│   with aws_ssm_parameter.password,
+│   on ssm.tf line 30, in resource "aws_ssm_parameter" "password":
+│   30: resource "aws_ssm_parameter" "password" {
+│ 
+╵
+imagawayuuki@imagawayuukinoMacBook-Pro 10_infra % terraform apply -auto-approve
+aws_ssm_parameter.username: Refreshing state... [id=/tastylog/dev/app/MYSQL_USERNAME]
+aws_ecs_cluster.webapp: Refreshing state... [id=arn:aws:ecs:ap-northeast-1:677276078740:cluster/tastylog-dev-webapp-cluster]
+aws_ecr_repository.webapp: Refreshing state... [id=tastylog-webapp]
+aws_db_parameter_group.mysql_standalone_parametergroup: Refreshing state... [id=tastylog-dev-mysql-standalone-parametergroup]
+aws_vpc.vpc: Refreshing state... [id=vpc-07ffb4522ee08cf96]
+data.aws_iam_policy_document.ecs_task_exec_assume_role: Reading...
+data.aws_iam_policy_document.ec2_assume_role: Reading...
+data.aws_iam_policy_document.ec2_assume_role: Read complete after 0s [id=1903849331]
+data.aws_iam_policy_document.ecs_task_exec_assume_role: Read complete after 0s [id=320642683]
+aws_iam_role.ecs_task_exec_iam_role: Refreshing state... [id=tastylog-dev-ecs-task-exec-iam-role]
+aws_iam_role.app_iam_role: Refreshing state... [id=tastylog-dev-app-iam-role]
+aws_internet_gateway.igw: Refreshing state... [id=igw-055cc4089c82b3171]
+aws_security_group.app_sg: Refreshing state... [id=sg-07915fc9a1015ede8]
+aws_subnet.private_subnet_1c: Refreshing state... [id=subnet-0fd902da751dab972]
+aws_subnet.public_subnet_1c: Refreshing state... [id=subnet-08a387b940e2ef30b]
+aws_route_table.public_rt: Refreshing state... [id=rtb-0a65d49a9b793dbaa]
+aws_subnet.public_subnet_1a: Refreshing state... [id=subnet-0454191ce38d4d538]
+aws_security_group.opmng_sg: Refreshing state... [id=sg-09e4f6c8adbd8ee87]
+aws_route_table.private_rt: Refreshing state... [id=rtb-0a80f183795033fc2]
+aws_security_group.web_sg: Refreshing state... [id=sg-0dabfab88a02c6e77]
+aws_subnet.private_subnet_1a: Refreshing state... [id=subnet-03bc2b8bf6a3965af]
+aws_route.public_rt_igw_r: Refreshing state... [id=r-rtb-0a65d49a9b793dbaa1080289494]
+aws_security_group_rule.opmng_out_https: Refreshing state... [id=sgrule-1156046777]
+aws_security_group_rule.opmng_out_http: Refreshing state... [id=sgrule-3111919908]
+aws_security_group_rule.opmng_in_ssh: Refreshing state... [id=sgrule-137553425]
+aws_security_group_rule.opmng_in_tcp3000: Refreshing state... [id=sgrule-2442789656]
+aws_route_table_association.public_rt_1c: Refreshing state... [id=rtbassoc-0d1d08ae6e4aa63cf]
+aws_route_table_association.public_rt_1a: Refreshing state... [id=rtbassoc-039cb882e0979643b]
+aws_security_group.db_sg: Refreshing state... [id=sg-040a8e0d1d723ded4]
+aws_route_table_association.private_rt_1c: Refreshing state... [id=rtbassoc-016408a8b5390642f]
+aws_security_group_rule.web_out_tcp3000: Refreshing state... [id=sgrule-1175150767]
+aws_security_group_rule.web_in_http: Refreshing state... [id=sgrule-2976696166]
+aws_security_group_rule.app_in_tcp3000: Refreshing state... [id=sgrule-2772209473]
+aws_security_group_rule.web_in_https: Refreshing state... [id=sgrule-2424588460]
+aws_db_subnet_group.mysql_standalone_subnetgroup: Refreshing state... [id=tastylog-dev-mysql-standalone-subnetgroup]
+aws_iam_role_policy_attachment.ecs_task_exec_iam_role_ecs_task_exec: Refreshing state... [id=tastylog-dev-ecs-task-exec-iam-role-20250127014405400900000006]
+aws_route_table_association.private_rt_1a: Refreshing state... [id=rtbassoc-031c2dfcf92d28bee]
+aws_iam_role_policy_attachment.ecs_task_exec_iam_role_ssm_readonly: Refreshing state... [id=tastylog-dev-ecs-task-exec-iam-role-20250127014405422000000007]
+aws_iam_role_policy_attachment.ecs_task_exec_iam_role_ecr_readonly: Refreshing state... [id=tastylog-dev-ecs-task-exec-iam-role-20250127014405210400000005]
+aws_iam_role_policy_attachment.app_iam_role_s3_readonly: Refreshing state... [id=tastylog-dev-app-iam-role-20250127014403721600000003]
+aws_iam_role_policy_attachment.app_iam_role_ssm_managed: Refreshing state... [id=tastylog-dev-app-iam-role-20250127014403673400000001]
+aws_iam_instance_profile.app_ec2_profile: Refreshing state... [id=tastylog-dev-app-iam-role]
+aws_iam_role_policy_attachment.app_iam_role_ssm_readonly: Refreshing state... [id=tastylog-dev-app-iam-role-20250127014404046400000004]
+aws_iam_role_policy_attachment.app_iam_role_ec2_readonly: Refreshing state... [id=tastylog-dev-app-iam-role-20250127014403721600000002]
+aws_security_group_rule.app_out_tcp3306: Refreshing state... [id=sgrule-2966339816]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply" which may have affected this plan:
+
+  # aws_ssm_parameter.username has changed
+  ~ resource "aws_ssm_parameter" "username" {
+      + arn   = "arn:aws:ssm:ap-northeast-1:677276078740:parameter/tastylog/dev/app/MYSQL_USERNAME"
+        id    = "/tastylog/dev/app/MYSQL_USERNAME"
+        name  = "/tastylog/dev/app/MYSQL_USERNAME"
+        # (3 unchanged attributes hidden)
+    }
+
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may
+include actions to undo or respond to these changes.
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_db_instance.mysql_standalone will be created
+  + resource "aws_db_instance" "mysql_standalone" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 20
+      + apply_immediately                     = true
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = false
+      + availability_zone                     = "ap-northeast-1a"
+      + backup_retention_period               = 7
+      + backup_window                         = "04:00-05:00"
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + db_subnet_group_name                  = "tastylog-dev-mysql-standalone-subnetgroup"
+      + delete_automated_backups              = true
+      + deletion_protection                   = false
+      + endpoint                              = (known after apply)
+      + engine                                = "mysql"
+      + engine_version                        = "8.0.28"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = "tastylog-dev-mysql-standalone"
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t2.micro"
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + maintenance_window                    = "mon:05:00-mon:08:00"
+      + max_allocated_storage                 = 50
+      + monitoring_interval                   = 0
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = false
+      + name                                  = "tastylog"
+      + nchar_character_set_name              = (known after apply)
+      + option_group_name                     = "tastylog-dev-mysql-standalone-optiongroup"
+      + parameter_group_name                  = "tastylog-dev-mysql-standalone-parametergroup"
+      + password                              = (sensitive value)
+      + performance_insights_enabled          = false
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = 3306
+      + publicly_accessible                   = false
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_encrypted                     = false
+      + storage_type                          = "gp2"
+      + tags                                  = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-mysql-standalone"
+          + "Project" = "tastylog"
+        }
+      + tags_all                              = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-mysql-standalone"
+          + "Project" = "tastylog"
+        }
+      + timezone                              = (known after apply)
+      + username                              = (sensitive value)
+      + vpc_security_group_ids                = [
+          + "sg-040a8e0d1d723ded4",
+        ]
+    }
+
+  # aws_db_option_group.mysql_standalone_optiongroup will be created
+  + resource "aws_db_option_group" "mysql_standalone_optiongroup" {
+      + arn                      = (known after apply)
+      + engine_name              = "mysql"
+      + id                       = (known after apply)
+      + major_engine_version     = "8.0"
+      + name                     = "tastylog-dev-mysql-standalone-optiongroup"
+      + name_prefix              = (known after apply)
+      + option_group_description = "Managed by Terraform"
+      + tags_all                 = (known after apply)
+    }
+
+  # aws_ecs_service.webapp will be created
+  + resource "aws_ecs_service" "webapp" {
+      + cluster                            = "arn:aws:ecs:ap-northeast-1:677276078740:cluster/tastylog-dev-webapp-cluster"
+      + deployment_maximum_percent         = 200
+      + deployment_minimum_healthy_percent = 100
+      + desired_count                      = 1
+      + enable_ecs_managed_tags            = false
+      + enable_execute_command             = false
+      + health_check_grace_period_seconds  = 300
+      + iam_role                           = (known after apply)
+      + id                                 = (known after apply)
+      + launch_type                        = "FARGATE"
+      + name                               = "tastylog-dev-webapp-service"
+      + platform_version                   = (known after apply)
+      + scheduling_strategy                = "REPLICA"
+      + tags_all                           = (known after apply)
+      + task_definition                    = (known after apply)
+      + wait_for_steady_state              = false
+
+      + load_balancer {
+          + container_name   = "webapp"
+          + container_port   = 3000
+          + target_group_arn = (known after apply)
+        }
+
+      + network_configuration {
+          + assign_public_ip = true
+          + security_groups  = [
+              + "sg-07915fc9a1015ede8",
+              + "sg-09e4f6c8adbd8ee87",
+            ]
+          + subnets          = [
+              + "subnet-0454191ce38d4d538",
+            ]
+        }
+    }
+
+  # aws_ecs_task_definition.webapp will be created
+  + resource "aws_ecs_task_definition" "webapp" {
+      + arn                      = (known after apply)
+      + container_definitions    = (known after apply)
+      + cpu                      = "256"
+      + execution_role_arn       = "arn:aws:iam::677276078740:role/tastylog-dev-ecs-task-exec-iam-role"
+      + family                   = "tastylog-dev-webapp-template"
+      + id                       = (known after apply)
+      + memory                   = "512"
+      + network_mode             = "awsvpc"
+      + requires_compatibilities = [
+          + "FARGATE",
+        ]
+      + revision                 = (known after apply)
+      + skip_destroy             = false
+      + tags                     = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-webapp-template"
+          + "Project" = "tastylog"
+        }
+      + tags_all                 = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-webapp-template"
+          + "Project" = "tastylog"
+        }
+
+      + runtime_platform {
+          + cpu_architecture        = "X86_64"
+          + operating_system_family = "LINUX"
+        }
+    }
+
+  # aws_lb.front will be created
+  + resource "aws_lb" "front" {
+      + arn                        = (known after apply)
+      + arn_suffix                 = (known after apply)
+      + desync_mitigation_mode     = "defensive"
+      + dns_name                   = (known after apply)
+      + drop_invalid_header_fields = false
+      + enable_deletion_protection = false
+      + enable_http2               = true
+      + enable_waf_fail_open       = false
+      + id                         = (known after apply)
+      + idle_timeout               = 60
+      + internal                   = false
+      + ip_address_type            = (known after apply)
+      + load_balancer_type         = "application"
+      + name                       = "tastylog-dev-front-alb"
+      + security_groups            = [
+          + "sg-0dabfab88a02c6e77",
+        ]
+      + subnets                    = [
+          + "subnet-0454191ce38d4d538",
+          + "subnet-08a387b940e2ef30b",
+        ]
+      + tags_all                   = (known after apply)
+      + vpc_id                     = (known after apply)
+      + zone_id                    = (known after apply)
+    }
+
+  # aws_lb_listener.front_http will be created
+  + resource "aws_lb_listener" "front_http" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + load_balancer_arn = (known after apply)
+      + port              = 80
+      + protocol          = "HTTP"
+      + ssl_policy        = (known after apply)
+      + tags_all          = (known after apply)
+
+      + default_action {
+          + order            = (known after apply)
+          + target_group_arn = (known after apply)
+          + type             = "forward"
+        }
+    }
+
+  # aws_lb_target_group.webapp_blue will be created
+  + resource "aws_lb_target_group" "webapp_blue" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + connection_termination             = false
+      + deregistration_delay               = "300"
+      + id                                 = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + name                               = "tastylog-dev-webapp-blue-tg"
+      + port                               = 3000
+      + preserve_client_ip                 = (known after apply)
+      + protocol                           = "HTTP"
+      + protocol_version                   = (known after apply)
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + tags                               = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-webapp-tg"
+          + "Project" = "tastylog"
+        }
+      + tags_all                           = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-webapp-tg"
+          + "Project" = "tastylog"
+        }
+      + target_type                        = "ip"
+      + vpc_id                             = "vpc-07ffb4522ee08cf96"
+
+      + health_check {
+          + enabled             = true
+          + healthy_threshold   = 3
+          + interval            = 30
+          + matcher             = (known after apply)
+          + path                = "/"
+          + port                = "3000"
+          + protocol            = "HTTP"
+          + timeout             = (known after apply)
+          + unhealthy_threshold = 3
+        }
+    }
+
+  # aws_lb_target_group.webapp_green will be created
+  + resource "aws_lb_target_group" "webapp_green" {
+      + arn                                = (known after apply)
+      + arn_suffix                         = (known after apply)
+      + connection_termination             = false
+      + deregistration_delay               = "300"
+      + id                                 = (known after apply)
+      + lambda_multi_value_headers_enabled = false
+      + load_balancing_algorithm_type      = (known after apply)
+      + name                               = "tastylog-dev-webapp-green-tg"
+      + port                               = 3000
+      + preserve_client_ip                 = (known after apply)
+      + protocol                           = "HTTP"
+      + protocol_version                   = (known after apply)
+      + proxy_protocol_v2                  = false
+      + slow_start                         = 0
+      + tags                               = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-webapp-green-tg"
+          + "Project" = "tastylog"
+        }
+      + tags_all                           = {
+          + "Env"     = "dev"
+          + "Name"    = "tastylog-dev-webapp-green-tg"
+          + "Project" = "tastylog"
+        }
+      + target_type                        = "ip"
+      + vpc_id                             = "vpc-07ffb4522ee08cf96"
+
+      + health_check {
+          + enabled             = true
+          + healthy_threshold   = 3
+          + interval            = 30
+          + matcher             = (known after apply)
+          + path                = "/"
+          + port                = "3000"
+          + protocol            = "HTTP"
+          + timeout             = (known after apply)
+          + unhealthy_threshold = 3
+        }
+    }
+
+  # aws_ssm_parameter.database will be created
+  + resource "aws_ssm_parameter" "database" {
+      + arn       = (known after apply)
+      + data_type = (known after apply)
+      + id        = (known after apply)
+      + key_id    = (known after apply)
+      + name      = "/tastylog/dev/app/MYSQL_DATABASE"
+      + tags_all  = (known after apply)
+      + tier      = "Standard"
+      + type      = "String"
+      + value     = (sensitive value)
+      + version   = (known after apply)
+    }
+
+  # aws_ssm_parameter.host will be created
+  + resource "aws_ssm_parameter" "host" {
+      + arn       = (known after apply)
+      + data_type = (known after apply)
+      + id        = (known after apply)
+      + key_id    = (known after apply)
+      + name      = "/tastylog/dev/app/MYSQL_HOST"
+      + tags_all  = (known after apply)
+      + tier      = "Standard"
+      + type      = "String"
+      + value     = (sensitive value)
+      + version   = (known after apply)
+    }
+
+  # aws_ssm_parameter.password will be created
+  + resource "aws_ssm_parameter" "password" {
+      + arn       = (known after apply)
+      + data_type = (known after apply)
+      + id        = (known after apply)
+      + key_id    = (known after apply)
+      + name      = "/tastylog/dev/app/MYSQL_PASSWORD"
+      + tags_all  = (known after apply)
+      + tier      = "Standard"
+      + type      = "SecureString"
+      + value     = (sensitive value)
+      + version   = (known after apply)
+    }
+
+  # aws_ssm_parameter.port will be created
+  + resource "aws_ssm_parameter" "port" {
+      + arn       = (known after apply)
+      + data_type = (known after apply)
+      + id        = (known after apply)
+      + key_id    = (known after apply)
+      + name      = "/tastylog/dev/app/MYSQL_PORT"
+      + tags_all  = (known after apply)
+      + tier      = "Standard"
+      + type      = "String"
+      + value     = (sensitive value)
+      + version   = (known after apply)
+    }
+
+  # aws_ssm_parameter.username is tainted, so must be replaced
+-/+ resource "aws_ssm_parameter" "username" {
+      ~ arn       = "arn:aws:ssm:ap-northeast-1:677276078740:parameter/tastylog/dev/app/MYSQL_USERNAME" -> (known after apply)
+      ~ data_type = "text" -> (known after apply)
+      ~ id        = "/tastylog/dev/app/MYSQL_USERNAME" -> (known after apply)
+      ~ key_id    = "alias/aws/ssm" -> (known after apply)
+        name      = "/tastylog/dev/app/MYSQL_USERNAME"
+      - tags      = {} -> null
+      ~ tags_all  = {} -> (known after apply)
+      ~ version   = 1 -> (known after apply)
+        # (3 unchanged attributes hidden)
+    }
+
+Plan: 13 to add, 0 to change, 1 to destroy.
+aws_ssm_parameter.username: Destroying... [id=/tastylog/dev/app/MYSQL_USERNAME]
+aws_db_option_group.mysql_standalone_optiongroup: Creating...
+aws_ssm_parameter.password: Creating...
+aws_lb.front: Creating...
+aws_lb_target_group.webapp_green: Creating...
+aws_lb_target_group.webapp_blue: Creating...
+aws_ssm_parameter.username: Destruction complete after 1s
+aws_ssm_parameter.username: Creating...
+aws_ssm_parameter.password: Creation complete after 1s [id=/tastylog/dev/app/MYSQL_PASSWORD]
+aws_ssm_parameter.username: Creation complete after 1s [id=/tastylog/dev/app/MYSQL_USERNAME]
+aws_lb_target_group.webapp_blue: Creation complete after 3s [id=arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:targetgroup/tastylog-dev-webapp-blue-tg/2a16dc92b8dde23e]
+aws_lb_target_group.webapp_green: Creation complete after 3s [id=arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:targetgroup/tastylog-dev-webapp-green-tg/2c7e603d8ff8bb13]
+aws_db_option_group.mysql_standalone_optiongroup: Creation complete after 6s [id=tastylog-dev-mysql-standalone-optiongroup]
+aws_db_instance.mysql_standalone: Creating...
+aws_lb.front: Still creating... [10s elapsed]
+aws_lb.front: Still creating... [20s elapsed]
+aws_lb.front: Still creating... [30s elapsed]
+aws_lb.front: Still creating... [40s elapsed]
+aws_lb.front: Still creating... [50s elapsed]
+aws_lb.front: Still creating... [1m0s elapsed]
+aws_lb.front: Still creating... [1m10s elapsed]
+aws_lb.front: Still creating... [1m20s elapsed]
+aws_lb.front: Still creating... [1m30s elapsed]
+aws_lb.front: Still creating... [1m40s elapsed]
+aws_lb.front: Still creating... [1m50s elapsed]
+aws_lb.front: Still creating... [2m0s elapsed]
+aws_lb.front: Still creating... [2m10s elapsed]
+aws_lb.front: Still creating... [2m20s elapsed]
+aws_lb.front: Still creating... [2m30s elapsed]
+aws_lb.front: Still creating... [2m40s elapsed]
+aws_lb.front: Still creating... [2m50s elapsed]
+aws_lb.front: Still creating... [3m0s elapsed]
+aws_lb.front: Creation complete after 3m2s [id=arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:loadbalancer/app/tastylog-dev-front-alb/1ea0bcbda86568d1]
+aws_lb_listener.front_http: Creating...
+aws_lb_listener.front_http: Creation complete after 1s [id=arn:aws:elasticloadbalancing:ap-northeast-1:677276078740:listener/app/tastylog-dev-front-alb/1ea0bcbda86568d1/4e1b139b1a8c04fe]
+╷
+│ Error: Error creating DB Instance: InvalidParameterCombination: Cannot find version 8.0.28 for mysql
+│       status code: 400, request id: e9903fa2-94bd-41f9-9023-28fd809acc4f
+│ 
+│   with aws_db_instance.mysql_standalone,
+│   on rds.tf line 51, in resource "aws_db_instance" "mysql_standalone":
+│   51: resource "aws_db_instance" "mysql_standalone" {
+│ 
