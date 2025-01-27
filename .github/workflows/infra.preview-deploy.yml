@@ -1,0 +1,20 @@
+name: "infra.preview-deploy"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '10_infra/**'
+      - '.github/workflows/**'
+permissions:
+  id-token: write
+  contents: write
+
+
+jobs:
+  preview:
+    name: "preview"
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, world!"
